@@ -1,4 +1,5 @@
 <script>
+  import styles from './ArtworkList.module.css';
   let searchTerm = '';
   let artworkList = [];
   let currentPage = 1;
@@ -10,7 +11,7 @@
     const response = await fetch(`https://itunes.apple.com/search?term=${searchTerm}&entity=album&limit=100`);
     const data = await response.json();
     artworkList = data.results.map(result => ({
-      artworkUrl: result.artworkUrl100,
+      artworkUrl: result.artworkUrl100.replace('100x100', '1000x1000'),
       artistName: result.artistName,
       albumTitle: result.collectionName
     }));
@@ -46,17 +47,18 @@
     <button type="submit">Search</button>
   </form>
   {#if artworkList.length}
-    <ul>
-	  {#each currentArtworkPage as artwork}
-	    <li>
-	      <a target="_blank" href={artwork.artworkUrl.replace('100x100', '10000x10000')} download>
-	        <img src={artwork.artworkUrl} alt="Album Artwork">
-	      </a>
-	      <p>{artwork.artistName} - {artwork.albumTitle}</p>
-	    </li>
-	  {/each}
-	</ul>
-    <div class="pagination">
+    <div class={styles.grid}>
+      {#each currentArtworkPage as artwork}
+        <div class={styles.card}>
+          <a target="_blank" href={artwork.artworkUrl.replace('1000x1000', '10000x10000')} download>
+            <img src={artwork.artworkUrl} alt="Album Artwork">
+          </a>
+          <h3>{artwork.artistName}</h3>
+          <p>{artwork.albumTitle}</p>
+        </div>
+      {/each}
+    </div>
+    <div class={styles.pagination}>
       {#if currentPage > 1}
         <a href="#" on:click={handlePrevPage}>Previous</a>
       {/if}
@@ -65,6 +67,6 @@
       {/if}
     </div>
   {:else}
-    <p>No artwork found.</p>
+    <p class={styles["no-results"]}>No artwork found.</p>
   {/if}
 </main>
