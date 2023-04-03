@@ -1,38 +1,13 @@
-# create-svelte
+# iTunes / Apple Music Album Artwork Fetcher
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Just trying out SvelteKit. This super basic app makes use of the [`iTunes Search API`](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html) to search for album artwork and download the highest possible resolution image from Apple's servers. After searching, for example `Smashing Pumpkins - Mellon Collie and the Infinite Sadness`, click the resulting image thumbnail to download the full-size file. Additional results are included and paginated in case the first match, I don't know, sucks or something. Sometimes Apple Music has like 5 versions of an album.
 
-## Creating a project
+## Compiling + Previewing
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Just do this :
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
+npm install
 npm run build
+npm run preview
 ```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
