@@ -10,6 +10,6 @@ npm run build
 npm run preview
 ```
 
-Input an artist + album, for example `Smashing Pumpkins - Mellon Collie and the Infinite Sadness`, then click the resulting cover art thumbnail to download the full-size file.
+Input an artist + album, for example `Weezer - Maladroit`, then click the resulting cover art thumbnail to download the full-size file.
 
 Additional results are included and paginated in case the first match, I don't know, sucks or something. Sometimes Apple Music has like 5 versions of an album.
