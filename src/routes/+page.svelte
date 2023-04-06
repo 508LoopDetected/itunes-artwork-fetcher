@@ -80,6 +80,7 @@
 </script>
 
 <main>
+  <h1>iTunes Hi-Res Artwork DL</h1>
   <form on:submit={handleSearch}>
     <input type="text" on:input={handleInput} bind:value={searchTerm} placeholder="Enter artist and/or album">
     <button type="submit">Search</button>
@@ -101,6 +102,9 @@
           <div class={styles.artinfo}>
             <h3>{artwork.albumTitle}</h3>
             <p>{artwork.artistName}</p>
+            <a class={`${styles.button} ${styles.dl}`} target="_blank" href={artwork.artworkUrl.replace('1000x1000', '10000x10000')} download>
+              ⇓
+            </a>
           </div>
         </div>
       {/each}
@@ -114,6 +118,10 @@
       {/if}
     </div>
   {:else}
-    <p class={styles["no-results"]}>No artwork found.</p>
+    <p class={styles["no-results"]}>Nothing here yet. Try searching!</p>
   {/if}
 </main>
+
+<footer class={styles.footer}>
+  <p>github.com/508loopdetected</p>
+</footer>
