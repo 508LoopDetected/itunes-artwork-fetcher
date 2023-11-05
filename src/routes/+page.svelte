@@ -80,7 +80,7 @@
 </script>
 
 <main>
-  <h1>iTunes Hi-Res Artwork DL</h1>
+  <h1>iTunes Hi-Res Artwork Fetcher</h1>
   <form on:submit={handleSearch}>
     <input type="text" on:input={handleInput} bind:value={searchTerm} placeholder="Enter artist and/or album">
     <button type="submit">Search</button>
@@ -118,10 +118,10 @@
       {/if}
     </div>
   {:else}
-    <p class={styles["no-results"]}>Nothing here yet. Try searching!</p>
+    <p class={styles["no-results"]}>Nothing here yet.<br/>Try searching by album, artist, or both!</p>
   {/if}
 </main>
 
 <footer class={styles.footer}>
-  <p>github.com/508loopdetected</p>
+  <p><a href="https://github.com/508LoopDetected" target="_blank">github.com/508LoopDetected</a></p>
 </footer>
