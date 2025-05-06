@@ -218,6 +218,11 @@ button[type="submit"]:disabled,
   text-align: center;
 }
 
+.footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
 @media (prefers-color-scheme: light) {
   .footer {
     background-color: #f2f2f2;
