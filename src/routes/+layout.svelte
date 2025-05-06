@@ -1,35 +1,41 @@
 <script>
   import '../app.css';
+  import { infoPanel } from '$lib/stores/uiStore';
   import ThemeToggle from '$lib/components/ThemeToggle.svelte';
   
   // Get the current year for the footer
   const currentYear = new Date().getFullYear();
 </script>
 
-<div class="fixed inset-0 -z-10 bg-slate-900/95 dark:bg-black/95 overflow-hidden">
-  <!-- Subtle cool blue bubble gradients -->
-  <div class="absolute top-[10%] left-[15%] w-[40vw] h-[40vh] rounded-full bg-sky-500/10 dark:bg-sky-600/10 blur-[100px]"></div>
-  <div class="absolute bottom-[15%] right-[10%] w-[35vw] h-[35vh] rounded-full bg-blue-400/10 dark:bg-blue-500/10 blur-[100px]"></div>
-  <div class="absolute top-[60%] left-[50%] w-[25vw] h-[25vh] rounded-full bg-cyan-400/10 dark:bg-cyan-500/10 blur-[120px]"></div>
-  
-  <!-- Optional subtle noise texture overlay -->
-  <div class="absolute inset-0 bg-noise opacity-[0.03]"></div>
-</div>
-
 <div class="min-h-screen flex flex-col">
-  <div class="bg-gradient-overlay"></div>
-  <header class="border-b border-gray-200 dark:border-gray-800">
+  <div class="fixed inset-0 -z-10 bg-zinc-100 dark:bg-zinc-900 overflow-hidden">
+    <!-- Greyscale "bubbles" -->
+    <div class="absolute top-[10%] left-[15%] w-[45vw] h-[45vh] rounded-full bg-zinc-300/15 dark:bg-zinc-700/15 blur-[120px]"></div>
+    <div class="absolute bottom-[15%] right-[10%] w-[40vw] h-[40vh] rounded-full bg-zinc-300/15 dark:bg-zinc-700/15 blur-[120px]"></div>
+    <div class="absolute top-[60%] left-[50%] w-[30vw] h-[30vh] rounded-full bg-zinc-300/10 dark:bg-zinc-700/10 blur-[150px]"></div>
+    
+    <!-- Very subtle noise texture overlay -->
+    <div class="absolute inset-0 bg-noise opacity-[0.02]"></div>
+  </div>
+  <header class="border-b border-zinc-200 dark:border-zinc-800">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
       <div class="flex items-center">
-        <a href="/" class="text-2xl font-bold text-primary-600 dark:text-primary-400">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline mr-2 mb-2" viewBox="0 0 384 512" fill="currentColor">
-            <!-- Apple logo -->
-            <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
-          </svg>
-          Hi-Res Artwork Fetcher
-        </a>
+        <img src="logo.svg" class="h-8 inline mr-2 mb-1 text-accent" />
       </div>
-      <div>
+      <div class="flex items-center space-x-4">
+        <!-- Info button -->
+        <button 
+          type="button"
+          class="p-2 rounded-full text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 focus:outline-none transition-colors"
+          aria-label="Toggle information panel"
+          on:click={() => infoPanel.update(state => !state)}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </button>
+        
+        <!-- Theme toggle -->
         <ThemeToggle />
       </div>
     </div>

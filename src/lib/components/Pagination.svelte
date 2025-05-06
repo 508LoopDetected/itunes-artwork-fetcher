@@ -75,7 +75,7 @@
 
 <div class="flex flex-col items-center space-y-4 my-8">
   <!-- Page info -->
-  <p class="text-sm text-gray-500 dark:text-gray-400">
+  <p class="text-sm text-zinc-500 dark:text-zinc-400">
     Page {currentPage} of {totalPages}
   </p>
   
@@ -84,7 +84,7 @@
     <!-- First page button -->
     <button
       type="button"
-      class="relative inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800"
+      class="relative inline-flex items-center justify-center px-3 py-2 border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-zinc-800"
       disabled={disablePrev}
       on:click={() => goToPage(1)}
       aria-label="Go to first page"
@@ -97,7 +97,7 @@
     <!-- Previous button -->
     <button
       type="button"
-      class="relative inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800"
+      class="relative inline-flex items-center justify-center px-3 py-2 border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-zinc-800"
       disabled={disablePrev}
       on:click={() => goToPage(currentPage - 1)}
       aria-label="Go to previous page"
@@ -112,23 +112,16 @@
       {#each pageNumbers as page}
         {#if page === null}
           <!-- Ellipsis -->
-          <span class="relative inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <span class="relative inline-flex items-center justify-center px-4 py-2 border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm font-medium text-zinc-700 dark:text-zinc-300">
             ...
           </span>
         {:else}
           <button
             type="button"
-            class="relative inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-700 text-sm font-medium transition-colors"
-            class:text-white={page === currentPage}
-            class:bg-primary-600={page === currentPage}
-            class:hover:bg-primary-700={page === currentPage}
-            class:border-primary-500={page === currentPage}
-            class:text-gray-700={page !== currentPage}
-            class:dark:text-gray-300={page !== currentPage}
-            class:bg-white={page !== currentPage}
-            class:dark:bg-gray-800={page !== currentPage}
-            class:hover:bg-gray-50={page !== currentPage}
-            class:dark:hover:bg-gray-700={page !== currentPage}
+            class={`relative inline-flex items-center justify-center px-4 py-2 border text-sm font-medium transition-colors
+              ${page === currentPage 
+                ? 'text-white bg-accent hover:bg-accent-600 border-accent' 
+                : 'text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700'}`}
             on:click={() => goToPage(page)}
           >
             {page}
@@ -140,7 +133,7 @@
     <!-- Next button -->
     <button
       type="button"
-      class="relative inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800"
+      class="relative inline-flex items-center justify-center px-3 py-2 border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-zinc-800"
       disabled={disableNext}
       on:click={() => goToPage(currentPage + 1)}
       aria-label="Go to next page"
@@ -153,7 +146,7 @@
     <!-- Last page button -->
     <button
       type="button"
-      class="relative inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800"
+      class="relative inline-flex items-center justify-center px-3 py-2 border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-zinc-800"
       disabled={disableNext}
       on:click={() => goToPage(totalPages)}
       aria-label="Go to last page"
@@ -168,18 +161,18 @@
   {#if showPageJump && totalPages > 5}
     <div class="mt-3">
       <form on:submit={handleJumpSubmit} class="flex items-center space-x-2">
-        <label for="page-jump" class="text-sm text-gray-500 dark:text-gray-400">Go to page</label>
+        <label for="page-jump" class="text-sm text-zinc-500 dark:text-zinc-400">Go to page</label>
         <input
           id="page-jump"
           type="number"
           min="1"
           max={totalPages}
           bind:value={jumpToPage}
-          class="w-16 px-2 py-1 border border-gray-300 dark:border-gray-700 rounded-md text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+          class="w-16 px-2 py-1 border border-zinc-300 dark:border-zinc-700 rounded-md text-sm bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
         />
         <button
           type="submit"
-          class="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-md text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+          class="px-2 py-1 bg-zinc-200 dark:bg-zinc-700 rounded-md text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors"
         >
           Go
         </button>

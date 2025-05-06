@@ -1,3 +1,4 @@
+<!-- src/routes/+page.svelte -->
 <script>
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
@@ -13,6 +14,7 @@
   } from '$lib/stores/artworkStore';
   
   // Import components
+  import InfoPanel from '$lib/components/InfoPanel.svelte';
   import SearchForm from '$lib/components/SearchForm.svelte';
   import ArtworkCard from '$lib/components/ArtworkCard.svelte';
   import Pagination from '$lib/components/Pagination.svelte';
@@ -75,17 +77,27 @@
     if ($searchTerm) {
       handleSearch({ detail: { term: $searchTerm } });
     }
+    
+    // Show info panel the first time a user visits
+    const hasSeenInfo = localStorage.getItem('hasSeenInfo');
+    if (!hasSeenInfo) {
+      infoPanel.set(true);
+      localStorage.setItem('hasSeenInfo', 'true');
+    }
   });
 </script>
 
-<div class="max-w-7xl mx-auto">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <!-- Info Panel at the top -->
+  <InfoPanel />
+  
   <div class="text-center mb-10">
-    <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
+    <h1 class="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl md:text-6xl">
       <span class="block">Apple Music / iTunes</span>
-      <span class="block text-primary-600 dark:text-primary-400">Hi-Res Artwork Fetcher</span>
+      <span class="block text-accent">Hi-Res Album Art Fetcher</span>
     </h1>
-    <p class="mt-3 max-w-md mx-auto text-base text-gray-600 dark:text-gray-400 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-      Find and download high-resolution album artwork from Apple Music. Just search for an artist or album.
+    <p class="mt-3 max-w-md mx-auto text-base text-zinc-600 dark:text-zinc-400 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+      Find + download high-resolution cover art directly from the iTunes API.
     </p>
   </div>
   
@@ -100,7 +112,7 @@
   {#if $loading}
     <div class="results-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 animate-pulse">
       {#each Array(6) as _, i}
-        <div class="bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden shadow-md aspect-square"></div>
+        <div class="bg-zinc-200 dark:bg-zinc-800 rounded-lg overflow-hidden shadow-md aspect-square"></div>
       {/each}
     </div>
   {:else if $artworkList.length > 0}
@@ -125,14 +137,7 @@
   {:else}
     <EmptyState 
       title="Start your search" 
-      message="Search for your favorite artist or album to find high-resolution artwork." 
+      message="Nothing yet &mdash; Try an artist, album name, or both!" 
     />
   {/if}
-  
-  <div class="mt-12 bg-gray-100 dark:bg-gray-800 rounded-lg p-6 shadow-sm backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80">
-    <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">How It Works</h2>
-    <p class="text-gray-700 dark:text-gray-300 mb-4">
-      This app uses the iTunes Search API to find album artwork, but with useful twist: while the API normally returns small 100×100 pixel images, this app simply modifies the URL to request the original high-resolution versions instead (up to 10,000×10,000 pixels). When you click on an album cover, you're therefore accessing the source image directly from Apple's servers at the highest resolution available &mdash; often much larger than what's shown in iTunes or Apple Music's GUI.
-    </p>
-  </div>
 </div>
