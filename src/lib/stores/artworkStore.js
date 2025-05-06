@@ -7,7 +7,7 @@ export const artworkList = writable([]);
 export const loading = writable(false);
 export const error = writable(null);
 export const currentPage = writable(1);
-export const resultsPerPage = writable(9);
+export const resultsPerPage = writable(8);
 export const searchSuggestions = writable([]);
 
 // Persist search term to localStorage

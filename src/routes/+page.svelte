@@ -110,13 +110,13 @@
   {/if}
   
   {#if $loading}
-    <div class="results-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 animate-pulse">
+    <div class="results-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 animate-pulse">
       {#each Array(6) as _, i}
         <div class="bg-zinc-200 dark:bg-zinc-800 rounded-lg overflow-hidden shadow-md aspect-square"></div>
       {/each}
     </div>
   {:else if $artworkList.length > 0}
-    <div class="results-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+    <div class="results-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6 mb-8">
       {#each $pagination.currentItems as artwork (artwork.collectionId)}
         <ArtworkCard {artwork} />
       {/each}
