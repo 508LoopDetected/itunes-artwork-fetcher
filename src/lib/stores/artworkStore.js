@@ -10,10 +10,14 @@ export const currentPage = writable(1);
 export const resultsPerPage = writable(8);
 export const searchSuggestions = writable([]);
 
-// Persist search term to localStorage
+// Debounced localStorage write
+let debounceTimer;
 searchTerm.subscribe((value) => {
   if (browser) {
-    localStorage.setItem('searchTerm', value);
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      localStorage.setItem('searchTerm', value);
+    }, 500); // Wait 500ms after user stops typing
   }
 });
 

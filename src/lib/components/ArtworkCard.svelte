@@ -9,6 +9,7 @@
   let imageError = false;
   let isHovered = false;
   let dimensions = null;
+  let loadingDimensions = false;
   
   // Get optimized artwork URLs
   const thumbnailUrl = getOptimalArtworkUrl(artwork.artworkUrl100, 600);
@@ -25,9 +26,6 @@
         if (entries[0].isIntersecting) {
           shouldLoad = true;
           observer.disconnect();
-          
-          // Start loading high-res image dimensions in background
-          loadImageDimensions();
         }
       }, { rootMargin: '200px' });
       
@@ -35,7 +33,6 @@
     } else {
       // Fallback for browsers that don't support IntersectionObserver
       shouldLoad = true;
-      loadImageDimensions();
     }
     
     return () => {
@@ -45,20 +42,6 @@
     };
   });
   
-  // Function to load image dimensions
-  function loadImageDimensions() {
-    const img = new Image();
-    img.onload = () => {
-      dimensions = {
-        width: img.naturalWidth,
-        height: img.naturalHeight
-      };
-    };
-    img.onerror = () => {
-      dimensions = null;
-    };
-    img.src = highResUrl;
-  }
   
   function handleImageLoad() {
     imageLoaded = true;
@@ -70,19 +53,30 @@
   
   function handleMouseEnter() {
     isHovered = true;
-    // Dispatch custom event to parent
-    cardElement.dispatchEvent(new CustomEvent('artwork-hover', {
-      bubbles: true,
-      detail: { id: artwork.collectionId }
-    }));
+    // Load dimensions on first hover
+    if (!dimensions && !loadingDimensions) {
+      loadDimensions();
+    }
   }
   
   function handleMouseLeave() {
     isHovered = false;
-    // Dispatch custom event to parent
-    cardElement.dispatchEvent(new CustomEvent('artwork-unhover', {
-      bubbles: true
-    }));
+  }
+  
+  function loadDimensions() {
+    loadingDimensions = true;
+    const img = new Image();
+    img.onload = () => {
+      dimensions = {
+        width: img.naturalWidth,
+        height: img.naturalHeight
+      };
+      loadingDimensions = false;
+    };
+    img.onerror = () => {
+      loadingDimensions = false;
+    };
+    img.src = highResUrl;
   }
 </script>
 
@@ -91,7 +85,6 @@
   class:transform={isHovered}
   class:scale-[1.03]={isHovered}
   class:translate-y-[-8px]={isHovered}
-  class:card-hovered={isHovered}
   on:mouseenter={handleMouseEnter}
   on:mouseleave={handleMouseLeave}
   bind:this={cardElement}
@@ -130,14 +123,21 @@
       ></div>
     {/if}
     
-    <!-- Image dimensions badge -->
-    <div class="absolute top-3 left-3 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
-      {#if dimensions}
-        {dimensions.width}×{dimensions.height}
-      {:else}
-        Loading...
-      {/if}
-    </div>
+    <!-- Image dimensions badge (only shows on hover) -->
+    {#if isHovered}
+      <div class="absolute top-3 left-3 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm flex items-center">
+        {#if dimensions}
+          {dimensions.width}×{dimensions.height}
+        {:else if loadingDimensions}
+          <svg class="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        {:else}
+          Hover to load
+        {/if}
+      </div>
+    {/if}
     
     {#if showDownloadButton}
       <div 
@@ -167,11 +167,3 @@
   
 </div>
 
-<style>
-  /* This needs to go in a global stylesheet to properly implement the greyscale hover effect */
-  :global(.results-grid:has(.card-hovered) > div:not(.card-hovered)) {
-    filter: grayscale(1);
-    opacity: 0.7;
-    transition: all 0.3s ease;
-  }
-</style>

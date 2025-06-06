@@ -73,12 +73,7 @@
   }
 </script>
 
-<div class="flex flex-col items-center space-y-4 my-8">
-  <!-- Page info -->
-  <p class="text-sm text-zinc-500 dark:text-zinc-400">
-    Page {currentPage} of {totalPages}
-  </p>
-  
+<div class="flex flex-col items-center space-y-4 mt-12 mb-4">
   <!-- Pagination controls -->
   <div class="inline-flex shadow-sm rounded-md overflow-hidden">
     <!-- First page button -->
